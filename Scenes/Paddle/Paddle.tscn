@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bv8m4ffn08xom"]
+
+[ext_resource type="Script" uid="uid://c7eso45thkq41" path="res://Scripts/Paddle/paddle.gd" id="1_p4bap"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ut3sq"]
+radius = 0.25
+height = 2.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0sbc1"]
+size = Vector3(2.5, 0.5, 0.5)
+
+[node name="Paddle" type="CharacterBody3D"]
+script = ExtResource("1_p4bap")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_ut3sq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0sbc1")

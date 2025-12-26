@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4npe5i6kc8e3"]
+
+[ext_resource type="Script" uid="uid://bfumcdu4nlnm6" path="res://Scripts/Ball/ball.gd" id="1_41u45"]
+[ext_resource type="Texture2D" uid="uid://bko7k6ooxppwo" path="res://Assets/dirty_football_diff_4k.jpg" id="2_41u45"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ktgx5"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_cbx31"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgol0"]
+albedo_texture = ExtResource("2_41u45")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x8fbi"]
+
+[node name="Ball" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_ktgx5")
+gravity_scale = 0.0
+continuous_cd = true
+script = ExtResource("1_41u45")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_cbx31")
+surface_material_override/0 = SubResource("StandardMaterial3D_hgol0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_x8fbi")
