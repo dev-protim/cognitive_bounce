@@ -8,11 +8,14 @@ friction = 0.0
 bounce = 1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_cbx31"]
+radius = 0.25
+height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgol0"]
 albedo_texture = ExtResource("2_41u45")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x8fbi"]
+radius = 0.25
 
 [node name="Ball" type="RigidBody3D"]
 physics_material_override = SubResource("PhysicsMaterial_ktgx5")
