@@ -1,11 +1,77 @@
 extends RigidBody3D
 
 @export var speed: float = 10.0
+@export var arena_top_y: float = 9.0
+@export var respawn_delay: float = 1.0
+
+var score_label: Label
+var paddle: CharacterBody3D
+var miss_detector: Area3D
+var score: int = 0
+var respawning: bool = false
 
 func _ready():
-	var dir = Vector3(-1, 1, 0).normalized()
-	linear_velocity = dir * speed
+	contact_monitor = true
+	max_contacts_reported = 5
+	
+	await get_tree().process_frame
+
+	var level = get_parent()
+	score_label = level.get_node("UI/HUD/ScoreLabel") as Label
+	paddle = level.get_node("Paddle") as CharacterBody3D
+	miss_detector = level.get_node("Arena/MissDetector") as Area3D
+
+	# Connect signals dynamically
+	if miss_detector:
+		miss_detector.body_entered.connect(_on_miss_detector_body_entered)
+	else:
+		push_error("Miss Detector not found!")
+	self.body_entered.connect(_on_ball_body_entered)
+
+	respawn_ball()
 	gravity_scale = 0
+	update_score_label()
 
 func _physics_process(delta):
 	linear_velocity = linear_velocity.normalized() * speed
+
+func _on_ball_body_entered(body: Node) -> void:
+	print(body, "body")
+	if body == paddle:
+		print("hit")
+		score += 5
+		update_score_label()
+		
+func reset_ball_immediately():
+	show_miss_message()
+	linear_velocity = Vector3.ZERO
+	angular_velocity = Vector3.ZERO
+	sleeping = true
+
+	# Teleport
+	global_position = Vector3(0, arena_top_y, 0)
+
+	await get_tree().process_frame
+	sleeping = false
+
+	var dir_x = randf_range(-0.8, 0.8)
+	var dir_y = -1.0
+	linear_velocity = Vector3(dir_x, dir_y, 0).normalized() * speed
+
+func _on_miss_detector_body_entered(body: Node) -> void:
+	if body == self:
+		reset_ball_immediately()
+
+func respawn_ball():
+	position = Vector3(0, arena_top_y, 0)
+	var rand_x = randf_range(0.5, 1.0) * (1 if randi() % 2 == 0 else -1)
+	var rand_y = randf_range(0.3, 1.0) * -1
+	linear_velocity = Vector3(rand_x, rand_y, 0).normalized() * speed
+
+func show_miss_message():
+	score_label.text = "MISS!"
+	await get_tree().create_timer(respawn_delay).timeout
+	update_score_label()
+
+func update_score_label():
+	score_label.text = "Score: %d" % score

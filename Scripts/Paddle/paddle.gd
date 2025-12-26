@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var speed: float = 15.0
+@export var speed: float = 20.0
 @export var arena_size_x: float = 10.0
 
 func get_x_dir() -> float:
