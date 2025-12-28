@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 @export var speed: float = 10.0
-@export var arena_top_y: float = 9.0
+@export var arena_top_y: float = 8.0
 @export var respawn_delay: float = 1.0
 
 var score_label: Label
@@ -9,6 +9,15 @@ var paddle: CharacterBody3D
 var miss_detector: Area3D
 var score: int = 0
 var respawning: bool = false
+var telemetry := {
+	"level_number": 1,
+	"buttons_available": 2,
+	"ball_touch_count": 0,
+	"ball_miss_count": 0,
+	"ball_drop_frequency": [],
+	"reaction_panel_events": [],
+	"timestamps": []
+}
 
 func _ready():
 	contact_monitor = true
@@ -42,16 +51,25 @@ func _on_ball_body_entered(body: Node) -> void:
 		score += 5
 		update_score_label()
 		
+	# Update telemetry
+	telemetry["ball_touch_count"] += 1
+	telemetry["timestamps"].append({
+		"event": "ball_touch",
+		"time": Time.get_time_dict_from_system()
+	})
+		
 func reset_ball_immediately():
 	show_miss_message()
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 	sleeping = true
+	
+	await get_tree().create_timer(0.15).timeout
 
 	# Teleport
 	global_position = Vector3(0, arena_top_y, 0)
 
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	sleeping = false
 
 	var dir_x = randf_range(-0.8, 0.8)
@@ -60,6 +78,12 @@ func reset_ball_immediately():
 
 func _on_miss_detector_body_entered(body: Node) -> void:
 	if body == self:
+		telemetry["ball_miss_count"] += 1
+		telemetry["ball_drop_frequency"].append(Time.get_time_dict_from_system())
+		telemetry["timestamps"].append({
+			"event": "ball_missed",
+			"time": Time.get_time_dict_from_system()
+		})
 		reset_ball_immediately()
 
 func respawn_ball():
