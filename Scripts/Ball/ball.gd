@@ -16,7 +16,8 @@ var telemetry := {
 	"ball_miss_count": 0,
 	"ball_drop_frequency": [],
 	"reaction_panel_events": [],
-	"timestamps": []
+	"timestamps": [],
+	"ball_score_events": []
 }
 
 func _ready():
@@ -48,15 +49,29 @@ func _on_ball_body_entered(body: Node) -> void:
 	print(body, "body")
 	if body == paddle:
 		print("hit")
+		
+		var score_before = score
+		
 		score += 5
 		update_score_label()
 		
+		telemetry["ball_score_events"].append({
+			"type": "Paddle Hit",
+			"score_before": score_before,
+			"score_after": score,
+			"score_change": 5,
+			"miss_distance": 0,
+			"miss_category": "NA",
+			"timestamp": Time.get_time_dict_from_system()
+		})
+		telemetry["ball_touch_count"] += 1
+		
 	# Update telemetry
-	telemetry["ball_touch_count"] += 1
-	telemetry["timestamps"].append({
-		"event": "ball_touch",
-		"time": Time.get_time_dict_from_system()
-	})
+	#telemetry["ball_touch_count"] += 1
+	#telemetry["timestamps"].append({
+		#"event": "ball_touch",
+		#"time": Time.get_time_dict_from_system()
+	#})
 		
 func reset_ball_immediately():
 	show_miss_message()
@@ -76,14 +91,50 @@ func reset_ball_immediately():
 	var dir_y = -1.0
 	linear_velocity = Vector3(dir_x, dir_y, 0).normalized() * speed
 
+func classify_miss_distance(ball_x: float, paddle_x: float) -> Dictionary:
+	var distance = abs(ball_x - paddle_x)
+
+	var label := ""
+	if distance < 0.5:
+		label = "Very Close"
+	elif distance < 1.5:
+		label = "Close"
+	elif distance < 2:
+		label = "Far"
+	else:
+		label = "Very Far"
+
+	return {
+		"distance": distance,
+		"category": label
+	}
+
 func _on_miss_detector_body_entered(body: Node) -> void:
 	if body == self:
-		telemetry["ball_miss_count"] += 1
-		telemetry["ball_drop_frequency"].append(Time.get_time_dict_from_system())
-		telemetry["timestamps"].append({
-			"event": "ball_missed",
-			"time": Time.get_time_dict_from_system()
+		var score_before = score
+		var score_change = 0
+		
+		var miss_info = classify_miss_distance(
+			global_position.x,
+			paddle.global_position.x
+		)
+		
+		telemetry["ball_score_events"].append({
+			"type": "Paddle Miss",
+			"score_before": score_before,
+			"score_after": score,
+			"score_change": score_change,
+			"miss_distance": miss_info.distance,
+			"miss_category": miss_info.category,
+			"timestamp": Time.get_time_dict_from_system()
 		})
+		
+		telemetry["ball_miss_count"] += 1
+		#telemetry["ball_drop_frequency"].append(Time.get_time_dict_from_system())
+		#telemetry["timestamps"].append({
+			#"event": "ball_missed",
+			#"time": Time.get_time_dict_from_system()
+		#})
 		reset_ball_immediately()
 
 func respawn_ball():

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3 uid="uid://rife7sttdxw3"]
+
+[ext_resource type="Script" uid="uid://2xsllv6jl2pf" path="res://Scripts/Config/GameConfig.gd" id="1_bx2ua"]
+
+[resource]
+script = ExtResource("1_bx2ua")
+level_number = 1
+level_title = "Level 1"
+buttons = Array[String](["RedButton", "BlueButton"])
+game_duration = 10.0
+game_speed = 10.0
+choices = Array[Dictionary]([{
+"color": "red",
+"id": "RedButton",
+"text": "Red"
+}, {
+"color": "blue",
+"id": "BlueButton",
+"text": "Blue"
+}, {
+"color": "green",
+"id": "GreenButton",
+"text": "Green"
+}, {
+"color": "orange",
+"id": "OrangeButton",
+"text": "Orange"
+}, {
+"color": "yellow",
+"id": "YellowButton",
+"text": "Yellow"
+}])
+metadata/_custom_type_script = "uid://2xsllv6jl2pf"

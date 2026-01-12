@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c58pq0nt63t1"]
+[gd_scene load_steps=14 format=3 uid="uid://c3stbuh1gqoiv"]
 
 [ext_resource type="Texture2D" uid="uid://jhgqmvecu7et" path="res://Assets/t_brick_floor_002_diffuse_4k.jpg" id="1_444vf"]
 [ext_resource type="Texture2D" uid="uid://us6rv6pio7yw" path="res://Assets/curly_teddy_natural_diff_4k.jpg" id="2_27ga2"]
