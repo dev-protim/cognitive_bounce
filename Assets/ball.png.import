@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cbi7a5tp8bf4v"
 path.s3tc="res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.s3tc.ctex"
+path.etc2="res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/ball.png"
-dest_files=["res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.s3tc.ctex"]
+dest_files=["res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.s3tc.ctex", "res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.etc2.ctex"]
 
 [params]
 

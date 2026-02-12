@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3 uid="uid://dkcwd40l5tcxm"]
+
+[ext_resource type="Script" uid="uid://2xsllv6jl2pf" path="res://Scripts/Config/GameConfig.gd" id="1_r2kq8"]
+
+[resource]
+script = ExtResource("1_r2kq8")
+paddle_width_x = 1.2
+level_number = 3
+level_title = "Level 3"
+buttons = Array[String](["RedButton", "BlueButton"])
+game_duration = 10.0
+game_speed = 12.0
+choices = Array[Dictionary]([{
+"color": "red",
+"id": "RedButton",
+"text": "Red"
+}, {
+"color": "blue",
+"id": "BlueButton",
+"text": "Blue"
+}, {
+"color": "green",
+"id": "GreenButton",
+"text": "Green"
+}, {
+"color": "orange",
+"id": "OrangeButton",
+"text": "Orange"
+}, {
+"color": "yellow",
+"id": "YellowButton",
+"text": "Yellow"
+}, {
+"color": "purple",
+"id": "PurpleButton",
+"text": "Purple"
+}, {
+"color": "cyan",
+"id": "CyanButton",
+"text": "Cyan"
+}, {
+"color": "pink",
+"id": "PinkButton",
+"text": "Pink"
+}, {
+"color": "brown",
+"id": "BrownButton",
+"text": "Brown"
+}, {
+"color": "magenta",
+"id": "MagentaButton",
+"text": "Magenta"
+}, {
+"color": "gray",
+"id": "GrayButton",
+"text": "Gray"
+}, {
+"color": "teal",
+"id": "TealButton",
+"text": "Teal"
+}])
+metadata/_custom_type_script = "uid://2xsllv6jl2pf"

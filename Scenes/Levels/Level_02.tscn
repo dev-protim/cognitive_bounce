@@ -1,15 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://bii80ptq2chjx"]
+[gd_scene load_steps=7 format=3 uid="uid://0laux83vb0gh"]
 
 [ext_resource type="Script" uid="uid://bpir3pclrbar2" path="res://Scripts/Level/level_01.gd" id="1_37jai"]
 [ext_resource type="PackedScene" uid="uid://spukp0520mm" path="res://Scenes/Arena/Arena.tscn" id="1_titpi"]
-[ext_resource type="Resource" uid="uid://rife7sttdxw3" path="res://Configs/Level01.tres" id="2_6q1ru"]
+[ext_resource type="Resource" uid="uid://phlvff8r46rn" path="res://Configs/Level02.tres" id="2_ao2uv"]
 [ext_resource type="PackedScene" uid="uid://b4npe5i6kc8e3" path="res://Scenes/Ball/Ball.tscn" id="2_tqmcp"]
 [ext_resource type="PackedScene" uid="uid://bv8m4ffn08xom" path="res://Scenes/Paddle/Paddle.tscn" id="3_37jai"]
 [ext_resource type="PackedScene" uid="uid://ccrxou5af3pma" path="res://Scenes/UI/HUD.tscn" id="4_6q1ru"]
 
 [node name="Level" type="Node3D" node_paths=PackedStringArray("ball")]
 script = ExtResource("1_37jai")
-config = ExtResource("2_6q1ru")
+config = ExtResource("2_ao2uv")
 ball = NodePath("Ball")
 
 [node name="Arena" parent="." instance=ExtResource("1_titpi")]
