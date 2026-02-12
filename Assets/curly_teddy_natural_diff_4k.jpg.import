@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://us6rv6pio7yw"
 path.s3tc="res://.godot/imported/curly_teddy_natural_diff_4k.jpg-50b982015ed017b432b0aecb10b7e5ea.s3tc.ctex"
+path.etc2="res://.godot/imported/curly_teddy_natural_diff_4k.jpg-50b982015ed017b432b0aecb10b7e5ea.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/curly_teddy_natural_diff_4k.jpg"
-dest_files=["res://.godot/imported/curly_teddy_natural_diff_4k.jpg-50b982015ed017b432b0aecb10b7e5ea.s3tc.ctex"]
+dest_files=["res://.godot/imported/curly_teddy_natural_diff_4k.jpg-50b982015ed017b432b0aecb10b7e5ea.s3tc.ctex", "res://.godot/imported/curly_teddy_natural_diff_4k.jpg-50b982015ed017b432b0aecb10b7e5ea.etc2.ctex"]
 
 [params]
 

@@ -174,9 +174,8 @@ text = "Blue"
 layout_mode = 2
 alignment = 1
 
-[node name="LevelCompletePanel" type="Panel" parent="." node_paths=PackedStringArray("label")]
+[node name="LevelCompletePanel" type="Panel" parent="." node_paths=PackedStringArray("label", "next_level_button", "start_over_button")]
 process_mode = 2
-visible = false
 layout_mode = 0
 offset_left = 421.0
 offset_top = 131.0
@@ -184,6 +183,8 @@ offset_right = 687.0
 offset_bottom = 250.0
 script = ExtResource("4_4bm6u")
 label = NodePath("Level")
+next_level_button = NodePath("NextLevelButton")
+start_over_button = NodePath("StartOverButton")
 
 [node name="Level" type="Label" parent="LevelCompletePanel"]
 layout_mode = 0
@@ -212,9 +213,22 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_lelo4")
 text = "Next Level"
 
+[node name="StartOverButton" type="Button" parent="LevelCompletePanel"]
+visible = false
+layout_mode = 0
+offset_left = 135.0
+offset_top = 59.0
+offset_right = 240.0
+offset_bottom = 94.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_lelo4")
+text = "Start Over"
+
 [connection signal="pressed" from="ReactionPanel/VBoxContainer/ButtonContainer1/RedButton" to="ReactionPanel" method="_on_red_button_pressed"]
 [connection signal="pressed" from="ReactionPanel/VBoxContainer/ButtonContainer1/BlueButton" to="ReactionPanel" method="_on_blue_button_pressed"]
 [connection signal="pressed" from="ReactionPanel/VBoxContainer/ButtonContainer1/BlueButton2" to="ReactionPanel" method="_on_blue_button_pressed"]
 [connection signal="pressed" from="ReactionPanel/VBoxContainer/ButtonContainer1/BlueButton3" to="ReactionPanel" method="_on_blue_button_pressed"]
 [connection signal="pressed" from="LevelCompletePanel/PlayAgainButton" to="LevelCompletePanel" method="_on_play_again_button_pressed"]
 [connection signal="pressed" from="LevelCompletePanel/NextLevelButton" to="LevelCompletePanel" method="_on_next_level_button_pressed"]
+[connection signal="pressed" from="LevelCompletePanel/StartOverButton" to="LevelCompletePanel" method="_on_start_over_button_pressed"]
+[connection signal="pressed" from="LevelCompletePanel/StartOverButton" to="LevelCompletePanel" method="_on_next_level_button_pressed"]

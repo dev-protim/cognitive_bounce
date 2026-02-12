@@ -14,8 +14,11 @@ var correct_button_id: String = ""
 var score: int = 0
 var score_before_panel: int = 0
 var panel_active: bool = false
+var player_name: String = ""
 
 func _ready() -> void:
+	player_name = str(get_tree().get_meta("player_name", "Unknown"))
+	
 	if config == null:
 		push_error("Config not assigned in Inspector!")
 		return
@@ -140,29 +143,32 @@ func save_telemetry_html():
 	if not dir.dir_exists("Result"):
 		dir.make_dir("Result")
 
-	var file_path = result_dir + "/telemetry.html"
+	var timestamp := get_timestamp_string()
+	var file_path = result_dir + "/%s_L%02d_%s.html" % [
+		player_name,
+		config.level_number,
+		timestamp
+	]
 	var html_file = FileAccess.open(file_path, FileAccess.WRITE)
 
 	var html_content = "<html><head><title>Level Telemetry</title></head><body>"
 	html_content += "<h1>Level Telemetry</h1>"
 
 	html_content += "<p><b>Level:</b> %s</p>" % config.level_number
-	html_content += "<p><b>Buttons available:</b> %s</p>" % str(config.buttons.size())
+	#html_content += "<p><b>Buttons available:</b> %s</p>" % str(config.buttons.size())
 	html_content += "<p><b>Ball touches the paddle:</b> %s</p>" % str(ball.telemetry.ball_touch_count)
 	html_content += "<p><b>Ball misses the paddle:</b> %s</p>" % str(ball.telemetry.ball_miss_count)
 	#html_content += "<p><b>Ball drop times:</b> %s</p>" % str(ball.telemetry.ball_drop_frequency)
 
 	html_content += "<h2>Reaction Panel Events</h2><ul>"
 	for e in ball.telemetry.reaction_panel_events:
-		html_content += "<li>Correct: %s | Selected: %s | Buttons: %d | Time Taken to React: %.2f s | Points Achieved From Selection: %d | Score Before React: %d | Score After React: %d</li>" % [
-			e.correct_button,
-			e.selected_button,
-			e.num_buttons,
-			e.reaction_time_sec,
-			e.points_earned,
-			e.score_before,
-			e.score_after
-		]
+		html_content += "<li>Total Buttons: %d</li>" % e.num_buttons
+		html_content += "<li>Selected Button: %s</li>" % e.selected_button
+		html_content += "<li>Correct Button: %s</li>" % e.correct_button
+		html_content += "<li>Taken to React: %.2f s</li>" % e.reaction_time_sec
+		html_content += "<li>Points Achieved From Selection: %d</li>" % e.points_earned
+		html_content += "<li>Score Before React: %d</li>" % e.score_before
+		html_content += "<li>Score After React: %d</li>" % e.score_after
 	html_content += "</ul>"
 
 	html_content += "<h2>Timestamps</h2><ul>"
@@ -203,7 +209,12 @@ func save_telemetry_html():
 
 	print("Telemetry saved to:", file_path)
 
-
+func get_timestamp_string() -> String:
+	var d = Time.get_datetime_dict_from_system()
+	return "%04d%02d%02d_%02d%02d%02d" % [
+		d.year, d.month, d.day,
+		d.hour, d.minute, d.second
+	]
 
 func update_score_label() -> void:
 	$UI/HUD/ScoreLabel.text = "Score: %d" % score

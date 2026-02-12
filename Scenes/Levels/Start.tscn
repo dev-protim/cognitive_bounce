@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlnqpunxkr21y"]
+
+[ext_resource type="Script" uid="uid://whyuybxycocu" path="res://Scripts/Level/start_panel.gd" id="1_reafo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghkk2"]
+bg_color = Color(0.00636019, 0.694933, 0.622922, 1)
+
+[node name="Start" type="Node3D"]
+
+[node name="StartPanel" type="Panel" parent="." node_paths=PackedStringArray("name_input", "start_btn")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -98.0
+offset_top = -60.5
+offset_right = 98.0
+offset_bottom = 60.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_reafo")
+name_input = NodePath("VBoxContainer/NameInput")
+start_btn = NodePath("VBoxContainer/StartButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StartPanel"]
+layout_mode = 0
+offset_right = 196.0
+offset_bottom = 121.0
+alignment = 1
+
+[node name="Label" type="Label" parent="StartPanel/VBoxContainer"]
+layout_mode = 2
+text = "Enter Your Name:"
+horizontal_alignment = 1
+
+[node name="NameInput" type="LineEdit" parent="StartPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="StartPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ghkk2")
+text = "Start Game"
+
+[connection signal="pressed" from="StartPanel/VBoxContainer/StartButton" to="StartPanel" method="_on_start_button_pressed"]

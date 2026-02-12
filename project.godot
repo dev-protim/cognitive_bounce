@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Cognitive Bounce"
-run/main_scene="uid://bii80ptq2chjx"
+run/main_scene="uid://dlnqpunxkr21y"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
