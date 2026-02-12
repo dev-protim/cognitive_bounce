@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 	pass
 
 func show_panel(level_number: int):
-	print("hello panel")
+	print("hello panel", level_number)
 	visible = true
 	label.text = "Level %d Complete" % level_number
 	level_counter = level_number
