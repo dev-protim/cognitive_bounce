@@ -9,6 +9,8 @@ extends Node3D
 @onready var level_complete_panel = $UI/HUD/LevelCompletePanel
 @onready var paddle = $Paddle
 
+@export var http: HTTPRequest = null
+
 var level_finished := false
 
 var correct_button_id: String = ""
@@ -19,6 +21,13 @@ var panel_active: bool = false
 var player_name: String = ""
 
 func _ready() -> void:
+	#if http == null:
+		#push_error("HTTPRequest is not assigned in Inspector!")
+		#return
+		#
+	#http.process_mode = Node.PROCESS_MODE_ALWAYS
+	#http.request_completed.connect(_on_upload_done)
+	
 	player_name = str(get_tree().get_meta("player_name", "Unknown"))
 	
 	#paddle.apply_width(config.paddle_width_x)
@@ -124,10 +133,14 @@ func _on_reaction_finished(success: bool, reaction_time: float, selected_id: Str
 	panel_active = false
 
 	#print_full_telemetry()
-	save_telemetry_html()
+	#save_telemetry_html()
 	#get_tree().paused = true
-	
-	finish_level()
+	#var saved_path = save_telemetry_html()
+	#upload_to_drive(saved_path)
+	#finish_level()
+	var saved_path := save_telemetry_html()
+	if saved_path != "":
+		finish_level()
 	#start_hick_hyman_cycle()  # schedule next panel
 	
 func finish_level() -> void:
@@ -138,14 +151,17 @@ func finish_level() -> void:
 func format_time(t: Dictionary) -> String:
 	return "%02d:%02d:%02d" % [t.hour, t.minute, t.second]
 		
-func save_telemetry_html():
-	var project_dir = ProjectSettings.globalize_path("res://")
-	var result_dir = project_dir + "/Result"
+func save_telemetry_html() -> String:
+	var result_dir := "user://results"
+	DirAccess.make_dir_recursive_absolute(result_dir)
+	
+	#var project_dir = ProjectSettings.globalize_path("res://")
+	#var result_dir = project_dir + "/Result"
 
 	# Create Result folder if it doesn't exist
-	var dir = DirAccess.open(project_dir)
-	if not dir.dir_exists("Result"):
-		dir.make_dir("Result")
+	#var dir = DirAccess.open(project_dir)
+	#if not dir.dir_exists("Result"):
+		#dir.make_dir("Result")
 
 	var timestamp := get_timestamp_string()
 	var file_path = result_dir + "/%s_L%02d_%s.html" % [
@@ -211,7 +227,9 @@ func save_telemetry_html():
 	html_file.store_string(html_content)
 	html_file.close()
 
-	print("Telemetry saved to:", file_path)
+	#print("Telemetry saved to:", file_path)
+	print("Saved locally:", ProjectSettings.globalize_path(file_path))
+	return file_path
 
 func get_timestamp_string() -> String:
 	var d = Time.get_datetime_dict_from_system()
@@ -222,3 +240,39 @@ func get_timestamp_string() -> String:
 
 func update_score_label() -> void:
 	$UI/HUD/ScoreLabel.text = "Score: %d" % score
+
+func upload_to_drive(file_path: String) -> void:
+	var url := "https://script.google.com/macros/s/AKfycbw4cCKhNR9mQ3iU1SuD3xfNWmDJ2XL1pOrZXYDfJebSB0go2Dw-aWAG7ZIE1oWYglyq0A/exec"
+	var token := "ROY_SECRET_123"
+
+	if http == null:
+		push_error("HTTPRequest not assigned (set it in Inspector).")
+		return
+
+	if not FileAccess.file_exists(file_path):
+		push_error("File not found: " + file_path)
+		return
+
+	var filename := file_path.get_file()
+	var content := FileAccess.get_file_as_string(file_path)
+
+	var body := "token=%s&filename=%s&content=%s" % [
+		token.uri_encode(),
+		filename.uri_encode(),
+		content.uri_encode()
+	]
+
+	var headers := ["Content-Type: application/x-www-form-urlencoded"]
+
+	var err := http.request(url, headers, HTTPClient.METHOD_POST, body)
+	if err != OK:
+		push_error("Upload request failed to start. Error code: %d" % err)
+	else:
+		print("Upload started for:", filename)
+		
+func _on_upload_done(result, response_code, headers, body):
+	print("Code:", response_code)
+	print("Headers:", headers)
+	print("Body:", body.get_string_from_utf8())
+	print("Drive upload response code:", response_code)
+	print("Response:", body.get_string_from_utf8())
