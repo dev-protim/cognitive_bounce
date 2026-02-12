@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Experiment/game output results
+/Result/
+/results_from_phone/
+Cognitive Bounce.apk
+Cognitive Bounce.apk.idsig
