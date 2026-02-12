@@ -7,10 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://bv8m4ffn08xom" path="res://Scenes/Paddle/Paddle.tscn" id="5_7qsfn"]
 [ext_resource type="PackedScene" uid="uid://ccrxou5af3pma" path="res://Scenes/UI/HUD.tscn" id="6_ri2yq"]
 
-[node name="Level" type="Node3D" node_paths=PackedStringArray("ball")]
+[node name="Level" type="Node3D" node_paths=PackedStringArray("ball", "http")]
 script = ExtResource("1_s4jop")
 config = ExtResource("2_s4jop")
 ball = NodePath("Ball")
+http = NodePath("HTTPRequest")
 
 [node name="Arena" parent="." instance=ExtResource("3_3xfg0")]
 
@@ -40,5 +41,7 @@ offset_left = 21.7483
 offset_top = 9.88968
 offset_right = 61.7483
 offset_bottom = 49.8897
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]

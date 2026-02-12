@@ -21,11 +21,26 @@ var panel_active: bool = false
 var player_name: String = ""
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	$UI.process_mode = Node.PROCESS_MODE_ALWAYS
+
+	if http == null:
+		push_error("HTTPRequest is not assigned in Inspector!")
+		return
+
+	http.process_mode = Node.PROCESS_MODE_ALWAYS
+	if not http.request_completed.is_connected(_on_upload_done):
+		http.request_completed.connect(_on_upload_done)
+	#process_mode = Node.PROCESS_MODE_ALWAYS
+	#if http:
+		#http.process_mode = Node.PROCESS_MODE_ALWAYS
 	#if http == null:
 		#push_error("HTTPRequest is not assigned in Inspector!")
 		#return
 		#
 	#http.process_mode = Node.PROCESS_MODE_ALWAYS
+	#http.request_completed.connect(_on_upload_done)
+	#$UI.process_mode = Node.PROCESS_MODE_ALWAYS
 	#http.request_completed.connect(_on_upload_done)
 	
 	player_name = str(get_tree().get_meta("player_name", "Unknown"))
@@ -135,10 +150,10 @@ func _on_reaction_finished(success: bool, reaction_time: float, selected_id: Str
 	#print_full_telemetry()
 	#save_telemetry_html()
 	#get_tree().paused = true
-	#var saved_path = save_telemetry_html()
-	#upload_to_drive(saved_path)
+	var saved_path = save_telemetry_html()
+	upload_to_drive(saved_path)
 	#finish_level()
-	var saved_path := save_telemetry_html()
+	#var saved_path := save_telemetry_html()
 	if saved_path != "":
 		finish_level()
 	#start_hick_hyman_cycle()  # schedule next panel

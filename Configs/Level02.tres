@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_hpor3")
+paddle_width_x = 1.6
 level_number = 2
 level_title = "Level 2"
 buttons = Array[String](["RedButton", "BlueButton"])

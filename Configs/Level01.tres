@@ -8,7 +8,7 @@ paddle_width_x = 2.0
 level_number = 1
 level_title = "Level 1"
 buttons = Array[String](["RedButton", "BlueButton"])
-game_duration = 4.0
+game_duration = 5.0
 game_speed = 10.0
 choices = Array[Dictionary]([{
 "color": "red",
