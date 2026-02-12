@@ -2,6 +2,7 @@ extends Resource
 
 class_name GameConfig
 
+@export var paddle_width_x: float = 1.6
 @export var level_number: int = 1
 @export var level_title: String = "Level 1"
 @export var buttons: Array[String] = ["RedButton","BlueButton"]

@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_bx2ua")
+paddle_width_x = 2.0
 level_number = 1
 level_title = "Level 1"
 buttons = Array[String](["RedButton", "BlueButton"])

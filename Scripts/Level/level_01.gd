@@ -7,6 +7,8 @@ extends Node3D
 @onready var current_level = $UI/HUD/LabelName
 
 @onready var level_complete_panel = $UI/HUD/LevelCompletePanel
+@onready var paddle = $Paddle
+
 var level_finished := false
 
 var correct_button_id: String = ""
@@ -18,6 +20,8 @@ var player_name: String = ""
 
 func _ready() -> void:
 	player_name = str(get_tree().get_meta("player_name", "Unknown"))
+	
+	#paddle.apply_width(config.paddle_width_x)
 	
 	if config == null:
 		push_error("Config not assigned in Inspector!")
