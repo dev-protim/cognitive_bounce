@@ -4,6 +4,19 @@
 
 # Experiment/game output results
 /Result/
-/results_from_phone/
 Cognitive Bounce.apk
 Cognitive Bounce.apk.idsig
+
+# Godot 4+ specific ignores
+.godot/
+.nomedia
+# Godot-specific ignores
+.import/
+export.cfg
+export_credentials.cfg
+# Imported translations (automatically generated from CSV files)
+*.translation
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
